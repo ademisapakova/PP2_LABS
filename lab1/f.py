@@ -13,5 +13,3 @@ for i in arr:
           print("Okay, fine") 
     elif (i > 45): 
         print("Burn! Burn! Burn Young!")
-        
-      

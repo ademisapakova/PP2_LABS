@@ -9,4 +9,3 @@ for i in range(n):
         
 for i in arr: 
     print(i)
-    

@@ -18,5 +18,3 @@ if(x != -1 and y != -1):
     print(x, y) 
 elif(x != -1 and y == -1): 
     print(x)
-
-    

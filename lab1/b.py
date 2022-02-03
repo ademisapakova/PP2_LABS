@@ -7,4 +7,3 @@ if(x>300):
     print('It is tasty!')
 else:
     print('Oh, no!')    
-   

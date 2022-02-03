@@ -10,5 +10,4 @@ if (x<=500 and y%2==0 and flag!=False):
     print("Good job!")
 
 else:
-    print("Try next time!")    
-    
+    print("Try next time!")   

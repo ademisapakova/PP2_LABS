@@ -6,5 +6,3 @@ def todecimal(x):
 
 x=int(input())
 print(todecimal(x))
-
-
