@@ -1,11 +1,9 @@
-z=float,input()
-x=input()
-c=input()
-a=float
-if(x=='k'):
-   a= z/1024
-
-else:
-    a=z*1024
-
-print('%.cf'%a)        
+z = int(input()) 
+c = input() 
+ 
+if c == 'k': 
+    k = str(input()) 
+    num = "{:." + k + "f}" 
+    print(num.format(z/1024)) 
+else: 
+    print(z*1024)

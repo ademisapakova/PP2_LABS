@@ -1,7 +1,5 @@
 x=0
-
 name = input()
-
 for i in name:
     x+=ord(i)
 
