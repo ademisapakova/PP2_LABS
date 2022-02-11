@@ -1,23 +1,22 @@
-import math
-a,b = map(int,input().split())
-c = int(input())
-one = []
-two = []
-three = []
-four = []
-dict = {}
-for i in range(c): 
-  d,f = map(int,input().split())
-  one.append(d)
-  two.append(f)
-  dict[math.sqrt(((d-a)*(d-a))+((f-b)*(f-b)))]=i
-  three.append(math.sqrt(((d-a)*(d-a))+((f-b)*(f-b))))
-
-three.sort()
-for i in range(c):
-   for x in dict:
-     if(three[i] == x):
-         four.append(dict[x])
-         
-for i in four:
-    print(one[int(i)],two[int(i)])
+main_x, main_y = map(int ,input().split()) 
+n = int(input()) 
+result = dict() 
+ 
+ 
+for i in range(n): 
+    x, y = map(int, input().split()) 
+    dis = pow(pow((x - main_x), 2) + pow((y - main_y), 2), 1/2) 
+    if dis not in result: 
+        result[dis] = [x, y] 
+    else: 
+        result[dis].append(x) 
+        result[dis].append(y) 
+ 
+for k in sorted(result.keys()): 
+    v = result[k] 
+    if len(v) > 2: 
+        for i in range(0, len(v), 2): 
+            print(v[i], v[i+1]) 
+ 
+    else:         
+        print(*result[k])
