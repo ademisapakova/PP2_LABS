@@ -145,10 +145,30 @@ class Coin(pg.sprite.Sprite): # класс для монеток
     def is_mega_coin(self):
         return self.random_number == 5
 
+class Rocket(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pg.image.load(r'./images/roc.png')
+        self.surf = pg.Surface((20, 20),pg.SRCALPHA)
+        self.rect = self.surf.get_rect(
+            center=(random.randint(0, WIDTH - 40), -100))
+        self.speed = random.randint(1, 8)
+
+    def move(self):
+        self.rect.move_ip(0, self.speed)
+
+    def draw(self):
+        self.surf.blit(pg.transform.scale(self.image, (20, 20)), (0, 0))
+        screen.blit(self.surf, (self.rect.x, self.rect.y))
+
+    def ubivat(self):
+        if self.rect.top > HEIGHT:
+            self.kill()
 
 P1 = Player()
 enemies = pg.sprite.Group([Enemy() for _ in range(3)])
 coins = pg.sprite.Group([Coin() for _ in range(5)])
+rockets = pg.sprite.Group([Rocket() for _ in range(5)])
 if score >= 20:
     P1.speed+=1
 
@@ -182,12 +202,18 @@ while running:
         coin.move()
         # coin.animate()
         coin.ubivat()
+    for rocket in rockets:
+        rocket.draw()
+        rocket.move()
+        rocket.ubivat()    
 
     if enemies.__len__() < 3:
         enemies.add(Enemy())
 
     if coins.__len__() < 5:
         coins.add(Coin())
+    if rockets.__len__() < 5:
+        rockets.add(Rocket())
 
     if pg.sprite.spritecollide(P1, enemies, False): 
         lose = True
@@ -204,6 +230,10 @@ while running:
         if coin.is_mega_coin():
             score += 100
             pg.time.set_timer(MEGA_COIN, 5000, loops=False)
+    if pg.sprite.spritecollide(P1, rockets, True):
+            P1.speed+=1
+            pickcoin = pg.mixer.Sound('acc.mp3')
+            pickcoin.play(0)    
 
     if score > d['highscore']:
         d['highscore'] = score
