@@ -23,7 +23,7 @@ def checkNum(number):
 
 def check(name):
     select = '''
-            SELECT phonenumber FROM phonebook WHERE name = %s;
+            SELECT phonenumber FROM phonebook2 WHERE name = %s;
     '''
     current.execute(select, [name])
     DICT = current.fetchone()
@@ -36,27 +36,31 @@ query = str(input())
 
 if(query == 'insert'):
     #upgrade:
-    '''
-        create or replace procedure update(username varchar, pphonenumber varchar)
-        as
-        $$
-            begin
-                UPDATE phonebook 
-                SET phonenumber = $2 
-                WHERE name = $1;
-            end;
-        $$ language plpgsql;
-    '''
+    # u='''
+    #     create or replace procedure update(username varchar, pphonenumber varchar)
+    #     as
+    #     $$
+    #         begin
+    #             UPDATE phonebook2 
+    #             SET phonenumber = $2 
+    #             WHERE name = $1;
+    #         end;
+    #     $$ language plpgsql;
+    #     call update(%s, %s);
+        
+    #   '''
     #insert:
-    '''
-        create or replace procedure insert(name varchar, phonenumber varchar)
-        as
-        $$
-            begin
-                insert into phonebook(name, phonenumber) values ($1, $2);
-            end; 
-        $$ language plpgsql;  
-    '''
+    # i='''
+    #     create or replace procedure insert(name varchar, phonenumber varchar)
+    #     as
+    #     $$
+    #         begin
+    #             insert into phonebook2(name, phonenumber) values ($1, $2);
+    #         end; 
+    #     $$ language plpgsql;  
+    #     call insert(%s,%s);
+
+    # '''
 
     print("How many people you want to add?")
     n = int(input())
@@ -65,25 +69,26 @@ if(query == 'insert'):
         number = str(input())
         number = checkNum(number)
         if(check(name)): 
-            current.execute("call insert(%s,%s);", (name,number))
+            current.execute("call insert(%s, %s);", (name,number))
         else:
             current.execute("call update(%s, %s);",(name,number))
         
 
 if(query == 'delete'):
     #delete:
-    '''
-        create or replace procedure delete(data varchar)
-        as
-        $$
-            begin
-                delete from phonebook where name = $1  or phonenumber = $1; 
-            end;
-        $$ language plpgsql;
-    '''
+    # d='''
+    #     create or replace procedure delete(data varchar)
+    #     as
+    #     $$
+    #         begin
+    #             delete from phonebook2 where name = $1  or phonenumber = $1; 
+    #         end;
+    #     $$ language plpgsql;
+    #     call delete(%s);
+    # '''
 
     data = str(input())
-    current.execute("call delete(%s);", [data])
+    current.execute("call delete(%s)", [data])
        
 
 if(query == 'pagination'):
@@ -91,7 +96,7 @@ if(query == 'pagination'):
     limit = int(input())
     offset = int(input())
     pa = '''
-        select * from phonebook offset %s limit %s;
+        select * from phonebook2 offset %s limit %s;
     '''
     current.execute(pa ,(limit,offset))
     print(current.fetchall())
@@ -99,23 +104,24 @@ if(query == 'pagination'):
 
 if(query == 'query'):
     #querying:
-    '''
-        create or replace function querying(data varchar)
-            returns table (
-                namee varchar,
-                phonenumberr varchar
-            )
-        as
-        $$
-            begin
-                return query
-                    select * from phonebook where name ilike $1 or phonenumber ilike $1;
-            end;
-        $$ language plpgsql;
-    '''
+    # q='''
+    #     create or replace function querying(data varchar)
+    #         returns table (
+    #             namee varchar,
+    #             phonenumberr varchar
+    #         )
+    #     as
+    #     $$
+    #         begin
+    #             return query
+    #                 select * from phonebook2 where name ilike $1 or phonenumber ilike $1;
+    #         end;
+    #     $$ language plpgsql;
+    #     select querying(%s);
+    # '''
 
     pat = str(input())
-    current.execute("select querying(%s)" ,["%"+pat+"%"])
+    current.execute("select querying(%s)",["%"+pat+"%"])
     print(current.fetchall())
 
 current.close()
